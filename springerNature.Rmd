@@ -1,0 +1,115 @@
+
+```{r}
+library(httr)
+library(jsonlite)
+```
+
+```{r}
+test <- GET(
+  url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121"
+  )
+)
+
+test %>% content()
+test %>% content(type = "text") %>% 
+  #fromJSON()
+  prettify()
+
+json <- test %>% content(type = "text") %>% fromJSON()
+
+test %>%  content(type = "text") %>% prettify()
+
+json$facets
+
+countries = json$facets$values[[5]]
+
+```
+
+
+```{r}
+
+us <- GET(
+  url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
+    q = "year: 2000"
+  )
+)
+
+
+us %>% content(type = "text") %>% prettify()
+
+countries_2000 = us_json$facets$values[[5]] %>% mutate (year = 2000)
+
+y2001 <- GET(
+  url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
+    q = "year: 2001"
+  )
+)
+
+
+y2001 <- y2001 %>% content(type = "text") %>% fromJSON()
+
+countries_2001 = y2001$facets$values[[5]] %>%
+  mutate(year = 2001)
+
+
+y2002 <- GET(
+  url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
+    q = "year: 2002"
+  )
+)
+y2002 <- y2002 %>% content(type = "text") %>% fromJSON()
+
+countries_2002 = y2002$facets$values[[5]] %>%
+  mutate(year = 2002)
+
+y1999 <- get_year(1999)
+y2003 <- get_year(2003)
+y2004 <- get_year(2004)
+y2020 <- get_year(2020)
+
+year_country <- rbind(y1999, countries_2000, countries_2001, countries_2002, y2003, y2004, y2020)
+
+year_country %>% group_by(value) %>% count()
+
+year_country%>% 
+  filter(value == "Germany" | value == "United States") %>%
+  mutate(
+    year = as.integer(year), 
+    count = as.integer(count)
+  ) %>%
+  ggplot(aes(x = year, y = count, color = value)) +
+  geom_line() + 
+  facet_wrap(vars(value), scale = "free")
+
+```
+
+```{r}
+get_year <- function(year){
+  y <- GET(
+  url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
+    q = paste0("year: ", year)
+  )
+)
+y <- y %>% content(type = "text") %>% fromJSON()
+
+countries_y = y$facets$values[[5]] %>%
+  mutate(year = year)
+
+return(countries_y)
+}
+```
+
+```{r}
+
+```
+
