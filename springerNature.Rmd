@@ -2,6 +2,7 @@
 ```{r}
 library(httr)
 library(jsonlite)
+library(tidyverse)
 ```
 
 ```{r}
@@ -25,7 +26,7 @@ json$facets
 
 countries = json$facets$values[[5]]
 
-```
+to```
 
 
 ```{r}
@@ -165,8 +166,9 @@ y <- GET(
     q = paste0("year: ", year, " AND (", country_filter, ")"),
     p = 3
   )
-)
-df <- y %>% content(type = "text") %>% #prettify()
+) 
+
+df <- y %>% content(type = "text") %>% prettify()
   fromJSON()
 
 df$facets$values[[5]]

@@ -1,0 +1,31 @@
+---
+title: "Data from Springer Nature API"
+author: Quinn Liu
+output: 
+  github_document:
+    toc: true
+    toc_depth: 5
+---
+
+## Libraries
+```{r libraries, include = F}
+library(httr)
+library(tidyverse)
+```
+
+## API Token
+
+```{r}
+# in .Rprofile save your key and/or password
+# usethis::edit_r_profile(scope = "project")
+# options(springer_key = "your_key") 
+key <- getOption("springer_key")
+```
+
+## Retrieving data of top 20 countries with most published articles from 1970 t0 2022
+
+```{r}
+
+
+```
+
