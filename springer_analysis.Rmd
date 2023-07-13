@@ -14,17 +14,17 @@ library(tidyverse)
 
 ## The Data
 
-A data obtained in `springer_API.Rmd` that have obtained the top 20 countries with the most published articles in the academic journal Springer Nature, along with the count of published articles. 
+This data is obtained from `springer_API.Rmd.` It contains the top 20 countries with the most published articles in the academic journal Springer Nature from the years 1970 to 2022, along with the count of published articles and rank for each country. 
 
 ```{r import_df, echo = F}
 countries_df <- read_csv("springer_top_countries.csv")
 head(countries_df)
 ```
-## The Analysis: What are the countries that have the highest count of published articles in Springer?
+## The Analysis: What are the countries that have the highest count of published articles in Springer Nature?
 
-#### How Often has a Country Been in the Top 10 Countries with most published articles in Springer?
+#### How Often Has a Country Been in the Top 10 Countries with the Most Published Articles in Springer Nature?
 
-```{r}
+```{r frequency_top_10, echo = F}
 countries_df %>% 
   filter(rank <= 10) %>%
   group_by(country) %>%
@@ -49,13 +49,13 @@ countries_df %>%
   
 ```
 
-From the bar chart, we can see that 5 countries, Germany, Japan, Russia, United Kingdom, and the United States have been in the top 10 most published countries every year for the past 50 years. France, Canada, and Italy have also been very often in the top 10. India has also been in the top 10 most published more than 50% of the time. The remaining 6 countries have been in the top 10 less than 50% of the time. China, Netherlands, and Switzerland are semi-frequent, with frequencies between 25% and 50%, but Australia, Spain, and South Korea are the least frequently in the top 10. South Korea being the least frequent has only been in the top 10 once out of the past 53 years. This occurred in 2005 and South Korea ranked 10th, but South Korea does appear frequently in the top 20 most published.
+From the bar chart, we can see that 5 countries, Germany, Japan, Russia, the United Kingdom, and the United States have been in the top 10 most published countries every year for the past 50 years. France, Canada, and Italy have also been very often in the top 10. India has also been in the top 10 most published more than 50% of the time. The remaining 6 countries have been in the top 10 less than 50% of the time. China, Netherlands, and Switzerland are semi-frequent, with frequencies between 25% and 50%, but Australia, Spain, and South Korea are the least frequently in the top 10. South Korea being the least frequent, has only been in the top 10 once out of the past 53 years. This occurred in 2005, and South Korea ranked 10th, but South Korea does appear frequently in the top 20 most published.
 
 The bar chart does tell us that there are 5 countries that dominate in terms of most published articles in the Springer. 
 
-#### Focusing the the Five Dominate Countries: How do they compare to each other?
+#### Focusing on the Five Dominant Countries: How do they compare to each other?
 
-```{r}
+```{r counts, echo = F}
 countries_df %>%
   filter(country %in% c("Germany", "Japan", "Russia", "United Kingdom", "United States")) %>%
   ggplot(aes(x = year, y = published_count, color = country)) + 
@@ -74,7 +74,7 @@ countries_df %>%
 ```
 
 
-```{r}
+```{r ranks, echo = F}
 countries_df %>%
   filter(country %in% c("Germany", "Japan", "Russia", "United Kingdom", "United States")) %>%
   ggplot(aes(x = year, y = rank, color = country)) + 
@@ -93,19 +93,19 @@ countries_df %>%
   theme_gray()
 ```
 
-The graph of the ranks tells us that United States has solidly been the most published country in Springer since 1970. There are only three years where the US is not the most country: twice from 2013 to 2014, where Germany overtook first spot and US fell to second, and in 2022, where the US fell to second. In 2022, none of the five most dominate countries in first. Looking at the data, it is China that in first rank. Germany is solidly in second rank. For almost as often the US is first, Germany is second. There is a time around 2020 where Germany drops from second to third, and looking at the data, this is because China has taken second spot. 
+The graph of the ranks tells us that the United States has solidly been the most published country in Springer since 1970. There are only three years where the US is not the most country: twice from 2013 to 2014, where Germany overtook first spot and US fell to second, and in 2022, where the US fell to second. In 2022, none of the five most dominant countries in first. Looking at the data, it is China that in first rank. Germany is solidly in second rank. For almost as often as the US is first, Germany is second. There is a time around 2020 where Germany drops from second to third, and looking at the data, this is because China has taken second spot. 
 
-United Kingdom is usually in third rank but does not hold this spot as frequently as the US and Germany hold theirs. Before 2010, United Kingdom only swaps this spot with Russia. After 2010, the United Kingdom drops to fourth (and then fifth), and it is not Russia who takes the spot (Russia drops to around sixth). In a similiar case to US and Germany losing their spot, it is because China has overtaken the UK. 
+The United Kingdom is usually in third rank but does not hold this spot as frequently as the US and Germany hold theirs. Before 2010, the UK only swaps this spot with Russia. After 2010, the United Kingdom drops to fourth (and then fifth), and it is not Russia who takes the spot (Russia drops to around sixth). In a similar case to US and Germany losing their spot, it is because China has overtaken the UK. 
 
-Russia and Japan both are not very stable in a certain rank. Both countries also experience a rise and drop. Russia goes from around fourth to dropping near ninth about the same time as Japan rises from around seventh to fourth in the mid 1980s. Russia wavers around the bottom as Japan stays solidly in fourth until around 2000. Then Russia rises back up to around third/fourth, and Japan starts dropping down. While it appears that Japan and Russia rises and falls coincide with each other, no conjecture comes to mind as to why.
+Russia and Japan both are not very stable in a certain rank. Both countries also experience a rise and drop. Russia goes from around fourth to dropping near ninth about the same time as Japan rises from around seventh to fourth in the mid-1980s. Russia wavers around the bottom as Japan stays solidly in fourth until around 2000. Then Russia rises back up to around third/fourth, and Japan starts dropping down. While it appears that Japan and Russia's rises and falls coincide with each other, no conjecture comes to mind as to why.
 
-Looking at the time series of the count of published articles, we can see that there is good gap in published output between United States and the rest of the countries, particularly from 2010 onwards, with the exception from 2013 to 2014, where Germany has a huge spike in published articles before dropping down. I'm unsure of the cause of the spike. There is a good gap between the US and Germany and between Germany and the United Kingdom. These gap illustrate support US being in solid first and Germany in solid second. UK, Russia, and Japan have publishing counts closer to each other and are a magnitude off from the US. All countries exhibit positive growth over time. However in 1970s, all countries had a similar output. The gap in outputs is then due to the US's and Germany's greater growth than the other three countries, with the US's growth also substantially greater than Germany's.
+Looking at the time series of the count of published articles, we can see that there is a considerable gap in published output between the United States and the rest of the countries, particularly from 2010 onwards, with the exception from 2013 to 2014, where Germany has a huge spike in published articles before dropping down. I'm unsure of the cause of the spike. There is a good gap between the US and Germany and between Germany and the United Kingdom. These gaps further illustrate the US being in solid first and Germany in solid second. UK, Russia, and Japan have publishing counts closer to each other and are a magnitude off from the US. All countries exhibit positive growth over time. However, in the 1970s, all countries had a similar output. The gap in outputs is then due to the US's and Germany's greater growth than the other three countries, with the US's growth also substantially greater than Germany's.
 
 #### Adding China
 
-Though the bar charts do not identify China as a long time dominate country, the time series do show ripples of China rising through the ranks. And adding China to the time series of ranks, we do indeed the rise. 
+Though the bar charts do not identify China as a long-time dominant country, the time series do show ripples of China rising through the ranks. And by adding China to the time series of ranks, we can see the rise. 
 
-```{r}
+```{r ranks_add_china, echo = F}
 countries_df %>%
   filter(country %in% c("Germany", "Japan", "Russia", 
                         "United Kingdom", "United States", "China") &
@@ -128,9 +128,9 @@ countries_df %>%
 
 ```
 
-China enters the top 10 ranks in 1997 and have remained in the top 10 ranks. There is a quick rise from tenth to third in the 2010s, one that looks a lot like Russia's rise to the top that occurs a couple years before China (unsure if there is any relation). China makes it way to first rank in more recent years. And we can add China to the time series of published article counts to further observe. 
+China enters the top 10 ranks in 1997 and has remained in the top 10 ranks. There is a quick rise from tenth to third in the 2010s, one that looks a lot like Russia's rise to the top that occurs a couple of years before China (unsure if there is any relation). China makes its way to first rank in more recent years. And we can add China to the time series of published article counts to further observe. 
 
-```{r }
+```{r counts_add_china, echo = F}
 countries_df %>%
   filter(country %in% c("Germany", "Japan", "Russia", 
                         "United Kingdom", "United States", "China")) %>%
@@ -150,12 +150,12 @@ countries_df %>%
   theme_gray()
 ```
 
-This graph further confirms that China has been steadily rising quickly in published output. China appears to face the fastest growth, one that outpaces US and Germany in the 2010s. In 2022, China and the US have similar published output. I do not have a strong conjecture as to China's growth but it is likely that it is related to China's economic growth. In fact, all 6 countries are countries that all have large economies. It is likely that the academic productivity correlates to a country's economic health. 
+This graph further confirms that China has been steadily rising quickly in published output. China appears to face the fastest growth, one that outpaces US and Germany in the 2010s. In 2022, China and the US have similar published output. I do not have a strong conjecture as to China's growth but it is likely that it is related to China's economic growth. In fact, all 6 countries are countries that have large economies. It is likely that academic productivity correlates to a country's economic health. 
 
 
 #### Growth in the Top 20
 
-Though, some countries have missing point in certain years, we can get a good guage in growth in academic output for countries that have been a top 20 published country in Springer. 
+Though some countries have missing data point in certain years, we can get a good gauge in growth in academic output for countries that have been a top 20 published country in Springer Nature. 
 
 ```{r all__growth, echo = F}
 countries_df %>%
@@ -170,7 +170,7 @@ countries_df %>%
   theme(legend.position = "none")
 ```
 
-Seeing the graph tells us that most countries have output and growth on a scale similar to Japan and Russia. It does highlights another country with a exceptional growth similar to that of China, albeit smaller and more recent. Looking at the data, this country is India. 
+Seeing the graph tells us that most countries have output and growth on a scale similar to Japan and Russia. It does highlight another country with exceptional growth similar to that of China, albeit smaller and more recent. Looking at the data, this country is India. 
 
 #### Growth of India
 
@@ -198,10 +198,10 @@ countries_df %>%
   theme_gray()
 ```
 
-Adding India to the time series of rank tells us that unlike China, India has been in the top 10 before its enormous growth in recent years. This makes sense considering we know from the bar charts of countries' frequency in top 10, India, unlike China, has been in the top 10 more than 50% of the time. India fell out of the top 10 near 1990. 1990 to around 2005, India stayed around 15th. This is in comparison to China, which only entered top 20 in 1986 and has a continuous rising trend. But in 2005, India experiences an enorous growth, going to 8th extremely quickly and then rising to its 2022 fourth rank. India, like China, has also experience substantial economic growth in recent years, and its academic growth growth is likely to also be correlated.
+Adding India to the time series of rank tells us that, unlike China, India has been in the top 10 before its enormous growth in recent years. This makes sense considering we know from the bar charts of countries' frequency in the top 10, India, unlike China, has been in the top 10 more than 50% of the time. India fell out of the top 10 near 1990. 1990 to around 2005, India stayed around 15th. This is in comparison to China, which only entered top 20 in 1986 and has a continuously rising trend. But in 2005, India experienced an enormous growth, going to 8th extremely quickly and then rising to its 2022 fourth rank. India, like China, has also experienced substantial economic growth in recent years, and its academic growth is likely to also be correlated.
 
 ## Summary
 
-Historically, the most published countries in Springer are the US, Germany, UK, Russia, and Japan, with US solidly first and Germany solidly second. There has been tremendous growth in academic output from China and India, who have not been historically in the top 5 but has been rising to be comparable of the above countries in past decade or 2. France, Canada, and Italy are also commonly in the top 10 most published.
+Historically, the most published countries in Springer are the US, Germany, the UK, Russia, and Japan, with the US solidly first and Germany solidly second. There has been tremendous growth in academic output from China and India, which have not been historically in the top 5 but have been rising to be comparable to the above countries in the past decade or 2. France, Canada, and Italy are also commonly in the top 10 most published.
 
-This data is only from Springer Nature, which is only one academic journal. Springer Nature is a German-British academic publishing company, which is a factor for Germany and the UK's status as dominate publishing countries in this journal. But these general observations could likely be found in other journals.
+This data is only from Springer Nature, which is only one academic journal. Springer Nature is a German-British academic publishing company, which is a factor for Germany and the UK's status as dominant publishing countries in this journal. But these general observations could likely be found in other journals.
