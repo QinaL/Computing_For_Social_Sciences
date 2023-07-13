@@ -14,15 +14,15 @@ library(tidyverse)
 
 ## The Data
 
-This data is obtained from `springer_API.Rmd.` It contains the top 20 countries with the most published articles in the academic journal Springer Nature from the years 1970 to 2022, along with the count of published articles and rank for each country. 
+This data is obtained from `springer_API.Rmd.` It contains the top 20 countries with the most published works in Springer Nature from the years 1970 to 2022, along with the count and rank for each country. 
 
 ```{r import_df, echo = F}
-countries_df <- read_csv("springer_top_countries.csv")
+countries_df <- read_csv("data/springer_top_countries.csv")
 head(countries_df)
 ```
-## The Analysis: What are the countries that have the highest count of published articles in Springer Nature?
+## The Analysis: What are the countries that have the highest count of published works in Springer Nature?
 
-#### How Often Has a Country Been in the Top 10 Countries with the Most Published Articles in Springer Nature?
+#### How Often Has a Country Been in the Top 10 Countries with the Most Published Works in Springer Nature?
 
 ```{r frequency_top_10, echo = F}
 countries_df %>% 
@@ -51,7 +51,7 @@ countries_df %>%
 
 From the bar chart, we can see that 5 countries, Germany, Japan, Russia, the United Kingdom, and the United States have been in the top 10 most published countries every year for the past 50 years. France, Canada, and Italy have also been very often in the top 10. India has also been in the top 10 most published more than 50% of the time. The remaining 6 countries have been in the top 10 less than 50% of the time. China, Netherlands, and Switzerland are semi-frequent, with frequencies between 25% and 50%, but Australia, Spain, and South Korea are the least frequently in the top 10. South Korea being the least frequent, has only been in the top 10 once out of the past 53 years. This occurred in 2005, and South Korea ranked 10th, but South Korea does appear frequently in the top 20 most published.
 
-The bar chart does tell us that there are 5 countries that dominate in terms of most published articles in the Springer. 
+The bar chart does tell us that there are 5 countries that dominate in terms of most published works in the Springer. 
 
 #### Focusing on the Five Dominant Countries: How do they compare to each other?
 
@@ -61,7 +61,7 @@ countries_df %>%
   ggplot(aes(x = year, y = published_count, color = country)) + 
   geom_line() +
   labs(
-    title = "Published Articles in Springer Nature (1970-2022)", 
+    title = "Published Works in Springer Nature (1970-2022)", 
     x = "Year", 
     y = "Count"
   ) + 
@@ -99,7 +99,7 @@ The United Kingdom is usually in third rank but does not hold this spot as frequ
 
 Russia and Japan both are not very stable in a certain rank. Both countries also experience a rise and drop. Russia goes from around fourth to dropping near ninth about the same time as Japan rises from around seventh to fourth in the mid-1980s. Russia wavers around the bottom as Japan stays solidly in fourth until around 2000. Then Russia rises back up to around third/fourth, and Japan starts dropping down. While it appears that Japan and Russia's rises and falls coincide with each other, no conjecture comes to mind as to why.
 
-Looking at the time series of the count of published articles, we can see that there is a considerable gap in published output between the United States and the rest of the countries, particularly from 2010 onwards, with the exception from 2013 to 2014, where Germany has a huge spike in published articles before dropping down. I'm unsure of the cause of the spike. There is a good gap between the US and Germany and between Germany and the United Kingdom. These gaps further illustrate the US being in solid first and Germany in solid second. UK, Russia, and Japan have publishing counts closer to each other and are a magnitude off from the US. All countries exhibit positive growth over time. However, in the 1970s, all countries had a similar output. The gap in outputs is then due to the US's and Germany's greater growth than the other three countries, with the US's growth also substantially greater than Germany's.
+Looking at the time series of the count of published works, we can see that there is a considerable gap in published output between the United States and the rest of the countries, particularly from 2010 onwards, with the exception from 2013 to 2014, where Germany has a huge spike in published works before dropping down. I'm unsure of the cause of the spike. There is a good gap between the US and Germany and between Germany and the United Kingdom. These gaps further illustrate the US being in solid first and Germany in solid second. UK, Russia, and Japan have publishing counts closer to each other and are a magnitude off from the US. All countries exhibit positive growth over time. However, in the 1970s, all countries had a similar output. The gap in outputs is then due to the US's and Germany's greater growth than the other three countries, with the US's growth also substantially greater than Germany's.
 
 #### Adding China
 
@@ -137,7 +137,7 @@ countries_df %>%
   ggplot(aes(x = year, y = published_count, color = country)) + 
   geom_line() +
   labs(
-    title = "Published Articles in Springer Nature (1970-2022)", 
+    title = "Published Works in Springer Nature (1970-2022)", 
     subtitle = "Adding China",
     x = "Year", 
     y = "Count"
@@ -165,7 +165,7 @@ countries_df %>%
     title = "Growth of Published Output in Springer Nature (1970-2022)", 
     subtitle = "With Any Past Top 20 Published Country", 
     x = "Year", 
-    y = "Count of Published Articles"
+    y = "Count of Published Works"
   ) +
   theme(legend.position = "none")
 ```

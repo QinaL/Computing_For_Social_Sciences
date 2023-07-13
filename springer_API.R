@@ -61,4 +61,4 @@ top_countries <- map_dfr(years, get_countries_slow)
 top_countries <- top_countries %>%
   filter(country != "")
 
-write_csv(top_countries, "springer_top_countries.csv")
+write_csv(top_countries, "data/springer_top_countries.csv")
