@@ -1,33 +1,26 @@
----
-title: "Data from Springer Nature API"
-author: Quinn Liu
-output: 
-  github_document:
-    toc: true
-    toc_depth: 5
----
-
-## Libraries
-```{r libraries, include = F}
+# ------------------------------------------
+# libraries
+# ------------------------------------------
 library(httr)
 library(jsonlite)
 library(tidyverse)
-```
 
-## API Token
 
-```{r}
+# ------------------------------------------
+# API Token
+# ------------------------------------------
 # in .Rprofile save your key and/or password
 # usethis::edit_r_profile(scope = "project")
 # options(springer_key = "your_key") 
 key <- getOption("springer_key")
-```
 
-## Retrieving data of top 20 countries with most published articles from 1970 to 2022
 
-#### Querying function to request API and process into data frame
-```{r querying_function}
+# ------------------------------------------
+# Retrieving data 
+# -------------------------------------------
+# top 20 countries with most published articles from 1970 to 2022
 
+# querying function to request API and process into data frame
 get_countries_by_year <- function(year){
   
   response <- GET(
@@ -40,7 +33,7 @@ get_countries_by_year <- function(year){
   
   # retrieve content and parse into a data frame
   df <- response %>% 
-    content(type = "text") %>% 
+    content(type = "text", encoding = "UTF-8") %>% 
     fromJSON()
   
   # select the countries data and clean
@@ -56,14 +49,16 @@ get_countries_by_year <- function(year){
 
 get_countries_slow = slowly(get_countries_by_year, rate = rate_delay(0.5))
 
-```
 
-#### Request data and Export to CSV file
+# ------------------------------------------
+# Request data and Export to CSV file
+# ------------------------------------------
 
-```{r}
 years = c(1970:2022)
 top_countries <- map_dfr(years, get_countries_slow)
 
-write_csv(top_countries, "springer_top_countries.csv")
-```
+# clean out a few (20) empty countries given by API
+top_countries <- top_countries %>%
+  filter(country != "")
 
+write_csv(top_countries, "springer_top_countries.csv")
