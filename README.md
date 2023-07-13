@@ -10,7 +10,7 @@ This is a repository with a R script to request data from the [Springer Nature A
 - `springer_analysis.md`: Analysis report of the data set
 - `springer_analysis.Rmd`: contains the code to create the analysis; code to create all the graphs is found here
 - `springer_analysis_files/figure-gfm`: directory that holds all the graphs used in the report
-- `data`: directory holds the data set csv
+- `data/springer_top_countries.csv`: data set csv
 
 ### How to Use
 
