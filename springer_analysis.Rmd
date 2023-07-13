@@ -8,7 +8,6 @@ output:
 ---
 
 ```{r libraries, include = F}
-library(rcartocolor)
 library(tidyverse)
 ```
 

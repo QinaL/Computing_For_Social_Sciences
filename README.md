@@ -16,6 +16,14 @@ This is a repository with a R script to request data from the [Springer Nature A
 
 Obtain API Key. Run `springer_API.R` and then run `springer_analysis.Rmd`. The produced outputs are `data/springer_top_countries.csv` and `springer_analysis.md`. 
 
+###### Libraries Required
+
+```r
+library(httr)
+library(jsonlite)
+library(tidyverse)
+```
+
 
 ## Reflection
 
