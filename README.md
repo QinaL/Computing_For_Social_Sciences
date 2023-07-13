@@ -4,7 +4,7 @@
 
 This is a repository with a R script to request data from the [Springer Nature API](https://dev.springernature.com/) and an analysis of the data set obtained. The API requires an account to obtain an API key. Please sign up for an account if you would like to run the script. Springer Nature is an academic publishing company, and the API provides metadata for all its online documents. The data set contains the top 20 countries with the most published works from the years 1970 to 2022, along with the count and rank for each country. 
 
-### Files
+#### Files
 
 - `springer_API.R`: Rscript file to run to query data from API, clean the data set, and export into csv file
 - `springer_analysis.md`: Analysis report of the data set
@@ -12,7 +12,7 @@ This is a repository with a R script to request data from the [Springer Nature A
 - `springer_analysis_files/figure-gfm`: directory that holds all the graphs used in the report
 - `data/springer_top_countries.csv`: data set csv
 
-### How to Use
+#### How to Use
 
 Obtain API Key. Run `springer_API.R` and then run `springer_analysis.Rmd`. The produced outputs are `data/springer_top_countries.csv` and `springer_analysis.md`. 
 
