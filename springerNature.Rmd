@@ -92,24 +92,108 @@ year_country%>%
 ```
 
 ```{r}
+countries_of_interest = c("\"United States\"", "\"United Kingdom\"", "Germany", 
+                          "France", "Spain", "Sweden", "Switzerland",
+                           "Russia", "Japan", "Poland", "Italy", "India", 
+                           "China", "Australia", "Canada", "\"South Korea\"", 
+                          "Brazil", "Netherlands", "Austria", "Belgium")
+
+
+country_filter <- paste("country:", countries_of_interest) %>%
+  paste(collapse = " OR ")
+country_filter
+
 get_year <- function(year){
-  y <- GET(
-  url = "https://api.springernature.com/metadata/json?",
+  countries_of_interest = c("\"United States\"", "\"United Kingdom\"", "Germany", 
+                          "France", "Spain", "Sweden", "Switzerland",
+                           "Russia", "Japan", "Poland", "Italy", "India", 
+                           "China", "Australia", "Canada", "\"South Korea\"", 
+                          "Brazil", "Netherlands", "Austria", "Belgium")
+  
+  country_filter <- paste("country:", countries_of_interest) %>%
+    paste(collapse = " OR ")
+
+  response <- GET(
+    url = "https://api.springernature.com/metadata/json?",
   query = list(
     api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
-    q = paste0("year: ", year)
-  )
-)
-y <- y %>% content(type = "text") %>% fromJSON()
-
-countries_y = y$facets$values[[5]] %>%
-  mutate(year = year)
-
-return(countries_y)
+    q = paste0("year: ", year, " AND (", country_filter, ")")
+    ))
+  df <- response %>% content(type = "text") %>% fromJSON()
+  
+  countries = df$facets$values[[5]] %>%
+    mutate(year = year)
+  
+  return(countries)
 }
 ```
 
 ```{r}
+years = c(1990:2022)
+get_year_slow = slowly(get_year, rate = rate_delay(0.5))
+all <- map_dfr(years, get_year_slow)
+
+all %>% 
+  group_by(value) %>%
+  count()
+
+all %>%
+  filter(value == "Germany" | value == "United States") %>%
+  mutate(
+    year = as.integer(year), 
+    count = as.integer(count)
+  ) %>%
+  ggplot(aes(x = year, y = count, color = value)) +
+  geom_line() + 
+  facet_wrap(vars(value), scale = "free")
+```
+
+
+```{r}
+countries_of_interest = c("\"United States\"", "\"United Kingdom\"", "Germany", 
+                          "France", "Spain", "Sweden", "Switzerland",
+                           "Russia", "Japan", "Poland", "Italy", "India", 
+                           "China", "Australia", "Canada", "\"South Korea\"", 
+                          "Brazil", "Netherlands", "Austria", "Belgium")
+
+
+country_filter <- paste("country:", countries_of_interest) %>%
+  paste(collapse = " OR ")
+country_filter
+
+year = 2000
+y <- GET(
+  url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
+    q = paste0("year: ", year, " AND (", country_filter, ")"),
+    p = 3
+  )
+)
+df <- y %>% content(type = "text") %>% #prettify()
+  fromJSON()
+
+df$facets$values[[5]]
+
+y2 <- get_year(2000)
 
 ```
+
+```{r}
+response <- GET(
+    url = "https://api.springernature.com/metadata/json?",
+  query = list(
+    api_key = "7cfebd7aed0050ae0776703f3a4fe121", 
+    q = paste0("country:Germany")
+    ))
+
+df <- response %>% content("text") %>% fromJSON()
+
+df$facets$values[[4]]
+```
+
+
+```{r}
+```
+
 
